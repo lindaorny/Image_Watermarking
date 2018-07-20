@@ -24,8 +24,12 @@ H = hadamard(N);
 NC_Array = [];
 % ----------
 % Read the image and watermark
+
+% img_1: lena image
+% img_2: cameraman image
+% img_3: peppers image
 % ----------
-I0 = imread(img_3);
+I0 = imread(img_1);
 I1 = imread('img/Watermark_CityUHK.bmp');
 [I0,Marks1] = func_read_images(I0,I1);
 
@@ -64,40 +68,76 @@ for i = 1:7
 SEL = i;
 if SEL == 1
 % Noise attack
+
+% Noise Attack:
+% A random matrix is generated according to the size of the image. 
+% This random matrix times 10 is added to the watermarked image as noise.
+
 noise0    = 10*randn(size(Mwk_1st));
 Mwk_1st0   = double(Mwk_1st) + noise0;
 end
 
 if SEL == 2
 % Rotation attack
+
+% Rotation: It is implemented by using the imrotate function of MATLAB. 
+% The target image is rotated 0.1 degree clockwise. 
+% It would be output as the same size of the original image by cropping. 
+% Bilinear interpolation is used to enable the output pixel value as the weighted average of pixels in the nearest 2-by-2 neighborhood.
+
 Mwk_1st0   = double(imrotate(Mwk_1st,0.1,'bilinear','crop'));
 end
 
 if SEL == 3
 % Cropping attack
+
+% Cropping: 
+% Crop 200 x 200 square block from the image and 
+% replace that particular block with random pixels.
+
 Mwk_1st0(601:800,601:800) = 255*rand(200,200);
 end
 
 if SEL == 4
 % Scaling attack
+
+% Scaling: 
+% It is implemented by using the imresize function of MATLAB. 
+% The image is first resize by half and then resize by double. 
+% The original size of the image can be obtained but the resolution of the image is lowered. 
+
 Mwk_1st0   = imresize(Mwk_1st,1/2);
 Mwk_1st0   = imresize(Mwk_1st0,2);
 end
 
 if SEL == 5
 % Pixel reduction attack
+
+% Pixel Removal Attack: 
+% Replace two rows of the image to noise.
+
 Mwk_1st0(200,:) = 255*rand(1,1024);
 Mwk_1st0(:,400) = 255*rand(1024,1);
 end
 
 if SEL == 6
 % Guassian Smoothing attack
+
+% Gaussian Smoothing Attack: 
+% The gaussian blur filter is created using fspecial function and 
+% the filter is applied on the watermarked image. 
+% The output image would be the same size as the original image.
+
 G = fspecial('gaussian', [5 5], 0.5);
 Mwk_1st0 = imfilter(Mwk_1st,G,'same');
 end
 
 if SEL == 7
 % Sharpening attack
+
+% Sharpening: 
+% Sharpen the image 1.5 times the original.
+
 Mwk_1st0 = double((1.5*Mwk_1st));
 end
 

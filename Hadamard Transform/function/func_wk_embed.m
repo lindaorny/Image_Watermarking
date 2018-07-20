@@ -23,21 +23,21 @@ message = func_im2bw(Marks1);
 Mm      = size(message,1);	                
 Nm      = size(message,2);	                
 message = reshape(message,1,Mm*Nm);
-msg_vect                    = ones(1,Max_wk);
+msg_vect = ones(1,Max_wk);
 msg_vect(1:length(message)) = message;
-mwk_image                   = Images0;
+mwk_image = Images0;
 rand('state',0);
 
-%¡Óˆj???ˆwˆW??Èû??ˆY???
-PNseq0                      = round(2*(rand(1, sum(sum(midband)))-1/2));  
-LEN                         = length(PNseq0);
-Ns                          = randperm(LEN);
-PNseq                       = PNseq0;
+
+PNseq0 = round(2*(rand(1, sum(sum(midband)))-1/2));  
+LEN = length(PNseq0);
+Ns = randperm(LEN);
+PNseq = PNseq0;
 for i = 1:LEN
     PNseq(i) = PNseq0(Ns(i)); 
 end
  
-Theta            = sign(PNseq);
+Theta = sign(PNseq);
 
 x = 1;
 y = 1;

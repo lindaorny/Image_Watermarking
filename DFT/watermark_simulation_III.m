@@ -140,7 +140,7 @@ NC_Array(i) = NC;
 
 end;
 
-Display;
+Display_III;
 
 figure;
 I0          = imresize(I0,[1024,1024]);
